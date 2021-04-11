@@ -1,8 +1,10 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 
 const app = express();
 
@@ -29,10 +31,15 @@ mongoose
   });
 
 // Setting up user database (schema)
-const userSchema = {
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-};
+});
+
+userSchema.plugin(encrypt, {
+  secret: process.env.SECRET_KEY,
+  encryptedFields: ["password"],
+});
 
 // Creating a model (collection) from the schema
 const User = new mongoose.model("User", userSchema);
