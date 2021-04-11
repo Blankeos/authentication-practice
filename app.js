@@ -4,8 +4,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+var session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
 
@@ -17,6 +18,18 @@ app.use(
     extended: true,
   })
 );
+
+// Express session
+app.use(
+  session({
+    secret: "Our little secret.",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Mongoose
 mongoose
@@ -31,14 +44,21 @@ mongoose
     console.log(err.message);
   });
 
+mongoose.set("useCreateIndex", true);
+
 // Setting up user database (schema)
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
 });
 
+userSchema.plugin(passportLocalMongoose);
+
 // Creating a model (collection) from the schema
 const User = new mongoose.model("User", userSchema);
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Routes
 app.get("/", function (req, res) {
@@ -49,45 +69,37 @@ app.get("/login", function (req, res) {
   res.render("login");
 });
 
+app.get("/secrets", function (req, res) {
+  console.log(req.isAuthenticated);
+  if (req.isAuthenticated()) {
+    res.render("secrets");
+  } else {
+    res.redirect("/login");
+  }
+});
+
 app.get("/register", function (req, res) {
   res.render("register");
 });
 
 app.post("/register", function (req, res) {
-  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-    const newUser = new User({
-      email: req.body.username,
-      password: hash,
-    });
-
-    newUser.save(function (err) {
+  User.register(
+    { username: req.body.username },
+    req.body.password,
+    function (err, user) {
       if (err) {
         console.log(err);
+        res.redirect("/register");
       } else {
-        res.render("secrets");
-      }
-    });
-  });
-});
-
-app.post("/login", function (req, res) {
-  const email = req.body.username;
-  const password = req.body.password;
-
-  User.findOne({ email: email }, function (err, foundUser) {
-    if (err) {
-      console.log("err");
-    } else {
-      if (foundUser) {
-        bcrypt.compare(password, foundUser.password, function (error, result) {
-          if (result === true) {
-            res.render("secrets");
-          }
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/secrets");
         });
       }
     }
-  });
+  );
 });
+
+app.post("/login", function (req, res) {});
 
 app.listen(3000, function () {
   console.log("App started on port 3000");
