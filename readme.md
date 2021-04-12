@@ -37,7 +37,9 @@ npm install md5
 
 ## 🟢 Level 4. bcrypt (Salting)
 
-`npm install bcrypt`
+```console
+npm install bcrypt
+```
 
 - Sometimes there are errors with installation so check the npm docs or github page.
 - I got introduced to the concept of **Salting**:
@@ -49,10 +51,12 @@ npm install md5
 
 ## 🟢 Level 5. passport (Using Passportjs to add cookies and sessions)
 
-`npm install passport`
-`npm install passport-local`
-`npm install passport-local-mongoose`
-`npm install express-session`
+```console
+npm install passport
+npm install passport-local
+npm install passport-local-mongoose
+npm install express-session
+```
 
 > It's like some sort of weird game - Angela (on the node package names)
 
@@ -162,8 +166,10 @@ We already know that redirecting in `.authenticate(...)` passes data that contai
 
 Read the docs here: http://www.passportjs.org/
 
-1. `npm install passport-google-oauth20`
-2. `npm install mongoose-findorcreate`
+```console
+`npm install passport-google-oauth20`
+`npm install mongoose-findorcreate`
+```
 
 How to use:
 
