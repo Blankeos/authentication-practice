@@ -10,9 +10,9 @@ New stuff i learned here:
 
 - Level 2. mongoose-encryption
 - Level 3. md5
-- Level 5. bcrypt
-- 4. passport
-- 5. OAuth
+- Level 4. bcrypt
+- Level 5. passport
+- Level 6. OAuth
 
 ## ► mongoose-encryption (Level 2 - Database Encryption)
 
