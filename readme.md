@@ -12,6 +12,7 @@ New stuff i learned here:
 - md5
 - bcrypt
 - passport
+- OAuth
 
 ## mongoose-encryption (Level 2 - Database Encryption)
 
