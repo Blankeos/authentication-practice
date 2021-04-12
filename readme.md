@@ -14,7 +14,7 @@ New stuff i learned here:
 - Level 5. passport
 - Level 6. OAuth
 
-## 🟢 mongoose-encryption (Level 2 - Database Encryption)
+## 🟢 Level 2. mongoose-encryption (Database Encryption)
 
 ```console
 npm install mongoose-encryption
@@ -23,7 +23,7 @@ npm install mongoose-encryption
 - It's basically an encryption library that I can use to encrypt and decrypt models. I'm not sure what to models are specifically, but it's kind of used as a way to access collections in mongodb so I would much prefer to refer to them as collections.
 - Encryption is a weak way to secure passwords because it's you can encrypt and decrypt it if you have the secret key.
 
-## 🟢 md5 (Level 3 Hashing Passwords)
+## 🟢 Level 3. md5 (Hashing Passwords)
 
 ```console
 npm install md5
@@ -35,7 +35,7 @@ npm install md5
   - You don't have store any secret keys within environment variables or whatever.
   - You only store the hashed string on the database. So even if database gets hacked, no one knows the contents of the password.
 
-## 🟢 bcrypt (Level 4 Salting)
+## 🟢 Level 4. bcrypt (Salting)
 
 `npm install bcrypt`
 
@@ -47,7 +47,7 @@ npm install md5
   - More salt rounds means the algorithm is slower too, so don't get carried away.
 - The function isn't something I'm used to because it's not as simple to use as md5 but I guess it's ok.
 
-## 🟢 passport (Level 5 Using Passportjs to add cookies and sessions)
+## 🟢 Level 5. passport (Using Passportjs to add cookies and sessions)
 
 `npm install passport`
 `npm install passport-local`
@@ -158,7 +158,7 @@ app.get("/secrets", function (req, res) {
 
 We already know that redirecting in `.authenticate(...)` passes data that contains the `.isAuthenticated()` method. `/secrets` basically catches that and checks if the user is authenticated. If yes then the page is rendered. If not, then the page redirects to `/login`.
 
-### 🟢 OAuth (Level 6 - Google OAuth)
+### 🟢 Level 6. OAuth (Google OAuth)
 
 Read the docs here: http://www.passportjs.org/
 
