@@ -89,17 +89,23 @@ const userSchema = new mongoose.Schema({
 });
 // -- Finished setting up user schema here --
 
-userSchema.plugin(passportLocalMongoose); //
+userSchema.plugin(passportLocalMongoose); // not sure if this is needed after OAuth
 
 const User = new mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-```
 
-Basically, you add passportLocalMongoose as a plugin to the schema.
-Then after creating the model, you execute those three functions there which are the use, serializeUser, and deserializeUser.
+// I got these from the docs.
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+```
 
 > Boilerplate is done so now time to try implementing it in your API routes
 
@@ -146,3 +152,58 @@ app.get("/secrets", function (req, res) {
 ```
 
 We already know that redirecting in `.authenticate(...)` passes data that contains the `.isAuthenticated()` method. `/secrets` basically catches that and checks if the user is authenticated. If yes then the page is rendered. If not, then the page redirects to `/login`.
+
+### OAuth (Level 6 - Google OAuth)
+
+Read the docs here: http://www.passportjs.org/
+
+1. `npm install passport-google-oauth20`
+2. `npm install mongoose-findorcreate`
+
+How to use:
+
+```js
+// 1. REQUIRES
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const findOrCreate = require("mongoose-findorcreate");
+
+// 2. PUT THIS AFTER DECLARING THE SCHEMA (make sure schema has a googleId field to store profile Id)
+userSchema.plugin(findOrCreate);
+
+// 3. SETUP GOOGLE STRATEGY (I got this from passport docs)
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/secrets", // After logging in, google redirects user to this link.
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", // Gets rid of the deprecated Google+ bug.
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  )
+);
+```
+
+Routes:
+
+```js
+// Path when clicking "Login with Google" button on your site.
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile"] }) //This takes you to the Google Login Page
+);
+
+// Path after clicking logging in. (The callback that you assign to the Google Cloud Platform for your API)
+app.get(
+  "/auth/google/secrets",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/secrets");
+  }
+);
+```
