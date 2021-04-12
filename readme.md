@@ -8,20 +8,20 @@ I could probably implement those ones without reference
 
 New stuff i learned here:
 
-- mongoose-encryption
-- md5
-- bcrypt
-- passport
-- OAuth
+- Level 2. mongoose-encryption
+- Level 3. md5
+- Level 5. bcrypt
+- 4. passport
+- 5. OAuth
 
-## mongoose-encryption (Level 2 - Database Encryption)
+## ► mongoose-encryption (Level 2 - Database Encryption)
 
 `npm install mongoose-encryption`
 
 - It's basically an encryption library that I can use to encrypt and decrypt models. I'm not sure what to models are specifically, but it's kind of used as a way to access collections in mongodb so I would much prefer to refer to them as collections.
 - Encryption is a weak way to secure passwords because it's you can encrypt and decrypt it if you have the secret key.
 
-## md5 (Level 3 Hashing Passwords)
+## ► md5 (Level 3 Hashing Passwords)
 
 `npm install md5`
 
@@ -31,7 +31,7 @@ New stuff i learned here:
   - You don't have store any secret keys within environment variables or whatever.
   - You only store the hashed string on the database. So even if database gets hacked, no one knows the contents of the password.
 
-## bcrypt (Level 4 Salting)
+## ► bcrypt (Level 4 Salting)
 
 `npm install bcrypt`
 
@@ -43,7 +43,7 @@ New stuff i learned here:
   - More salt rounds means the algorithm is slower too, so don't get carried away.
 - The function isn't something I'm used to because it's not as simple to use as md5 but I guess it's ok.
 
-## passport (Level 5 Using Passportjs to add cookies and sessions)
+## ► passport (Level 5 Using Passportjs to add cookies and sessions)
 
 `npm install passport`
 `npm install passport-local`
