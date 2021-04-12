@@ -1,10 +1,10 @@
-# my authentication-practice notes
+# 🔐 my authentication-practice notes
 
-I'm following a udemy course by Angela Yu (Web Development Bootcamp)
-I have a local .env file that contains my MongoDB URI as well as a secret key for mongoose-encryption.
+> I'm following a udemy course by Angela Yu (Web Development Bootcamp)
+> I have a local .env file that contains my MongoDB URI as well as a secret key for mongoose-encryption.
 
-Already learned express, bodyparser, mongoose, dotenv
-I could probably implement those ones without reference
+> Already learned express, bodyparser, mongoose, dotenv
+> I could probably implement those ones without reference
 
 New stuff i learned here:
 
@@ -14,16 +14,20 @@ New stuff i learned here:
 - Level 5. passport
 - Level 6. OAuth
 
-## ► mongoose-encryption (Level 2 - Database Encryption)
+## 🟢 mongoose-encryption (Level 2 - Database Encryption)
 
-`npm install mongoose-encryption`
+```console
+npm install mongoose-encryption
+```
 
 - It's basically an encryption library that I can use to encrypt and decrypt models. I'm not sure what to models are specifically, but it's kind of used as a way to access collections in mongodb so I would much prefer to refer to them as collections.
 - Encryption is a weak way to secure passwords because it's you can encrypt and decrypt it if you have the secret key.
 
-## ► md5 (Level 3 Hashing Passwords)
+## 🟢 md5 (Level 3 Hashing Passwords)
 
-`npm install md5`
+```console
+npm install md5
+```
 
 - Possibly the easiest to implement and very self-explanatory to use just `md5(string)` and it returns an hashed version of that string`
 - **Hashing** is secure because:
@@ -31,7 +35,7 @@ New stuff i learned here:
   - You don't have store any secret keys within environment variables or whatever.
   - You only store the hashed string on the database. So even if database gets hacked, no one knows the contents of the password.
 
-## ► bcrypt (Level 4 Salting)
+## 🟢 bcrypt (Level 4 Salting)
 
 `npm install bcrypt`
 
@@ -43,7 +47,7 @@ New stuff i learned here:
   - More salt rounds means the algorithm is slower too, so don't get carried away.
 - The function isn't something I'm used to because it's not as simple to use as md5 but I guess it's ok.
 
-## ► passport (Level 5 Using Passportjs to add cookies and sessions)
+## 🟢 passport (Level 5 Using Passportjs to add cookies and sessions)
 
 `npm install passport`
 `npm install passport-local`
@@ -154,7 +158,7 @@ app.get("/secrets", function (req, res) {
 
 We already know that redirecting in `.authenticate(...)` passes data that contains the `.isAuthenticated()` method. `/secrets` basically catches that and checks if the user is authenticated. If yes then the page is rendered. If not, then the page redirects to `/login`.
 
-### OAuth (Level 6 - Google OAuth)
+### 🟢 OAuth (Level 6 - Google OAuth)
 
 Read the docs here: http://www.passportjs.org/
 
